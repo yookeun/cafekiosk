@@ -61,7 +61,7 @@ class OrderServiceTest {
         Product product3 = createProduct(HANDMADE, "003", 5000);
         productRepository.saveAll(List.of(product1, product2, product3));
 
-        OrderCreateRequest request = OrderCreateRequest.builder()
+        OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productNumbers(List.of(product1.getProductNumber(), product2.getProductNumber()))
                 .build();
         LocalDateTime registeredDateTime = LocalDateTime.now();
@@ -89,7 +89,7 @@ class OrderServiceTest {
         Product product3 = createProduct(HANDMADE, "003", 5000);
         productRepository.saveAll(List.of(product1, product2, product3));
 
-        OrderCreateRequest request = OrderCreateRequest.builder()
+        OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productNumbers(List.of(product1.getProductNumber(), product1.getProductNumber()))
                 .build();
         LocalDateTime registeredDateTime = LocalDateTime.now();
@@ -123,7 +123,7 @@ class OrderServiceTest {
         Stock stock2 = Stock.create("002", 2);
         stockRepository.saveAll(List.of(stock1, stock2));
 
-        OrderCreateRequest request = OrderCreateRequest.builder()
+        OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productNumbers(List.of(
                         product1.getProductNumber(),
                         product1.getProductNumber(),
@@ -180,7 +180,7 @@ class OrderServiceTest {
         stock1.deductQuantity(1);
         stockRepository.saveAll(List.of(stock1, stock2));
 
-        OrderCreateRequest request = OrderCreateRequest.builder()
+        OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productNumbers(List.of(
                                 product1.getProductNumber(),
                                 product1.getProductNumber(),
@@ -195,9 +195,7 @@ class OrderServiceTest {
         //when //then
         assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime))
                 .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("재고가 부족한 상품이 있습니다.");
-
-
+                .hasMessage("재고가 부족한 상품이 있습니다.");
     }
 
 
